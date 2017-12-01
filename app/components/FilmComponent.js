@@ -59,6 +59,7 @@ export default class FilmComponent extends Component<{}> {
             });
     }
 
+
     render() {
         console.log('==========FilmComponent=========render=============')
         return (<View style={styles.container}>
@@ -66,7 +67,7 @@ export default class FilmComponent extends Component<{}> {
                 <Text style={styles.title}>首页</Text>
             </View>
             <View style={styles.loadingComponent}>
-                <LoadingComponent ref="loadingComponent"
+                <LoadingComponent  ref={(loadingComponent) => this.loadingComponent = loadingComponent}
                                   onShowRenderView={this.onShowRenderView} startRequest={this.startRequest}/>
             </View>
 
@@ -86,10 +87,26 @@ export default class FilmComponent extends Component<{}> {
 
     keyExtractor = (item, index) => index;
 
-    onShowRenderView = (result) => {
+    onShowRenderView = () => {
+        console.log('================render=============' + this.loadingComponent.props)
+        console.log('================render=============' + this.loadingComponent)
+        var method = this.loadingComponent
+        for (var key in method) {
+            var description = "key = " + key + " , value = " + method[key];
+            console.log('================description=============' + description)
+        }
+        console.log('================loadState=============' + this.loadingComponent.store.getState().loadingReducer.loadState)
+        console.log('================result=============' + this.loadingComponent.store.getState().loadingReducer.result)
+
+        var result = this.loadingComponent.store.getState().loadingReducer.result.filmModels
+        for (var key in result) {
+            var description = "key = " + key + " , value = " + result[key].filmName;
+            console.log('================description=============' + description)
+        }
+
         return (
             <PtrFrame
-                ref={ (ptrFrame) => this.ptrFrame = ptrFrame }
+                ref={(ptrFrame) => this.ptrFrame = ptrFrame}
                 handleRefresh={() => {
                     //this.refs.loadingComponent.initRequest
                     this.startRequest(null)
@@ -103,14 +120,13 @@ export default class FilmComponent extends Component<{}> {
                 keepHeaderWhenRefresh={true}
                 style={{flex: 1}}>
                 <FlatList
-                    data={result.filmModels}
+                    data={result}
                     renderItem={this.renderFilmItem}
                     keyExtractor={this.keyExtractor}
                     contentContainerStyle={[styles.containerList]}//设置cell的样式
                     ItemSeparatorComponent={this.filmSeparator}
                 />
             </PtrFrame>
-
         )
     }
 

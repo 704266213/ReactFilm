@@ -19,6 +19,17 @@ class LoadingComponent extends Component<{}> {
         this.initRequest()
     }
 
+    getResult = () => {
+        console.log('================getResult=============')
+        // console.log('================getResult=============' + this.props.result)
+        // console.log('================getResult=============' + this.props.result)
+        // console.log('================getResult=============' + this.props.result)
+        // console.log('================getResult=============' + this.props.result)
+        console.log('================getResult=============')
+
+       // return this.props.result
+    }
+
     initRequest = () => {
         var dispatch = this.props.dispatch
         dispatch(loading())
@@ -31,7 +42,7 @@ class LoadingComponent extends Component<{}> {
         if (loadState == -1) {
             return (<LoadingView/>)
         } else if (loadState == 200) {
-            return onShowRenderView(this.props.result)
+            return onShowRenderView()
         } else {
             return (<ReLoadView onReLoad={this.onReLoad}/>)
         }
